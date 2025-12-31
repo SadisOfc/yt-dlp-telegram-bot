@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: yt-dlp-bot-Java
+
+telegram:
+  bot:
+    username: ${BOT_USERNAME}
+    token: ${BOT_TOKEN}
+    owner_token: ${OWNER_TOKEN}
+
+downloader:
+  base-path: ${DOWNLOADS_DIRECTORY}
