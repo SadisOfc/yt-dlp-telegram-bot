@@ -30,6 +30,10 @@ bootJar{
     archiveFileName = 'telegram-bot.jar'
 }
 
+tasks.register("stage") {
+    dependsOn("build")
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 }
