@@ -7,11 +7,11 @@ import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import java.nio.file.Path;
 
 @Component
-public class AudioSender {
+public class AudioBuilder {
 
     private final AudioExecutor audioExecutor;
 
-    public AudioSender(AudioExecutor audioExecutor) {
+    public AudioBuilder(AudioExecutor audioExecutor) {
         this.audioExecutor = audioExecutor;
     }
 

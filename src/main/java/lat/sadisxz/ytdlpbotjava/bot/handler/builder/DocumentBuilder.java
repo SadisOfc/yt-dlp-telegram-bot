@@ -8,10 +8,10 @@ import java.nio.file.Path;
 
 
 @Component
-public class DocumentSender {
+public class DocumentBuilder {
     private final FormatExecutor formatExecutor;
 
-    public DocumentSender(FormatExecutor formatExecutor) {
+    public DocumentBuilder(FormatExecutor formatExecutor) {
         this.formatExecutor = formatExecutor;
     }
 

@@ -20,9 +20,9 @@ public class UserListBoard {
     public String userList(){
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("""
-                彡 ꜰᴀꜱᴛᴅʟʙᴏᴛ  - @%s 彡
+                ***彡 ꜰᴀꜱᴛᴅʟʙᴏᴛ  - @%s 彡***
                 ———————————————————————————
-                ᴜꜱᴇʀ ʟɪꜱᴛ
+                ***ᴜꜱᴇʀ ʟɪꜱᴛ***
                 """,telegramBotProperties.username()));
         for(Map.Entry<Long, UserStatus> entry : userRegistry.getAllUsers().entrySet()){
             sb.append(String.format("ɪᴅ: `%s` - ꜱᴛᴀᴛᴜꜱ: `%s`\n", entry.getKey(), entry.getValue()));
