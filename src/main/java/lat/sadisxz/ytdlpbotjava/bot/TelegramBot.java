@@ -4,11 +4,11 @@ package lat.sadisxz.ytdlpbotjava.bot;
 import lat.sadisxz.ytdlpbotjava.bot.dash.CommandsBoard;
 import lat.sadisxz.ytdlpbotjava.bot.dash.ErrorBoard;
 import lat.sadisxz.ytdlpbotjava.bot.dash.UnknownUserBoard;
-import lat.sadisxz.ytdlpbotjava.bot.handler.FileCleaner;
-import lat.sadisxz.ytdlpbotjava.bot.handler.commands.*;
-import lat.sadisxz.ytdlpbotjava.bot.handler.sender.AudioSender;
-import lat.sadisxz.ytdlpbotjava.bot.handler.sender.DocumentSender;
-import lat.sadisxz.ytdlpbotjava.bot.handler.sender.VideoSender;
+import lat.sadisxz.ytdlpbotjava.bot.handler.cleaner.FileCleaner;
+import lat.sadisxz.ytdlpbotjava.bot.handler.command.*;
+import lat.sadisxz.ytdlpbotjava.bot.handler.builder.AudioBuilder;
+import lat.sadisxz.ytdlpbotjava.bot.handler.builder.DocumentBuilder;
+import lat.sadisxz.ytdlpbotjava.bot.handler.builder.VideoBuilder;
 import lat.sadisxz.ytdlpbotjava.bot.model.MediaType;
 import lat.sadisxz.ytdlpbotjava.bot.model.UserDTO;
 import lat.sadisxz.ytdlpbotjava.bot.model.UserStatus;
@@ -34,8 +34,8 @@ import java.nio.file.Paths;
 public class TelegramBot extends TelegramLongPollingBot {
 
     private final FileCleaner fileCleaner;
-    private final VideoSender videoSender;
-    private final AudioSender audioSender;
+    private final VideoBuilder videoSender;
+    private final AudioBuilder audioBuilder;
     private final UserSent userSent;
     private final FormatOptionsExecutor formatOptionsExecutor;
     private final StartExecutor startExecutor;
@@ -46,7 +46,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final AddUserExecutor addUserExecutor;
     private final ErrorBoard errorBoard;
     private final RemoveUserExecutor removeUserExecutor;
-    private final DocumentSender documentSender;
+    private final DocumentBuilder documentBuilder;
     private final CommandsBoard commandsBoard;
 
 
@@ -54,10 +54,10 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final String BOTTOKEN;
     private final String PATH;
 
-    public TelegramBot(FileCleaner fileCleaner, VideoSender videoSender, AudioSender audioSender, UserSent userSent, FormatOptionsExecutor formatOptionsExecutor, StartExecutor startExecutor, InformationExecutor informationExecutor, UserListExecutor listExecutor, UserRegistry userRegistry, UnknownUserBoard unknownUserBoard, AddUserExecutor addUserExecutor, ErrorBoard errorBoard, RemoveUserExecutor removeUserExecutor, DocumentSender documentSender, CommandsBoard commandsBoard, TelegramBotProperties telegramBotProperties, DownloaderProperties downloaderProperties) {
+    public TelegramBot(FileCleaner fileCleaner, VideoBuilder videoSender, AudioBuilder audioBuilder, UserSent userSent, FormatOptionsExecutor formatOptionsExecutor, StartExecutor startExecutor, InformationExecutor informationExecutor, UserListExecutor listExecutor, UserRegistry userRegistry, UnknownUserBoard unknownUserBoard, AddUserExecutor addUserExecutor, ErrorBoard errorBoard, RemoveUserExecutor removeUserExecutor, DocumentBuilder documentBuilder, CommandsBoard commandsBoard, TelegramBotProperties telegramBotProperties, DownloaderProperties downloaderProperties) {
         this.fileCleaner = fileCleaner;
         this.videoSender = videoSender;
-        this.audioSender = audioSender;
+        this.audioBuilder = audioBuilder;
         this.userSent = userSent;
         this.formatOptionsExecutor = formatOptionsExecutor;
         this.startExecutor = startExecutor;
@@ -68,11 +68,11 @@ public class TelegramBot extends TelegramLongPollingBot {
         this.addUserExecutor = addUserExecutor;
         this.errorBoard = errorBoard;
         this.removeUserExecutor = removeUserExecutor;
-        this.documentSender = documentSender;
+        this.documentBuilder = documentBuilder;
         this.commandsBoard = commandsBoard;
         this.BOTUSERNAME = telegramBotProperties.username();
         this.BOTTOKEN = telegramBotProperties.token();
-        this.PATH = downloaderProperties.downloads_directory();
+        this.PATH = downloaderProperties.base_path();
     }
 
     @Override
@@ -106,8 +106,8 @@ public class TelegramBot extends TelegramLongPollingBot {
                 }
 
                 case "/aud"->{
-                    pathDownloads = Paths.get(PATH+chatId+"/"+ MediaType.MP3.toString().toLowerCase()+"/");
-                    executeMethod(audioSender.sendAudio(pathDownloads,chatId, message));
+                    pathDownloads = Paths.get(PATH+chatId.toString()+"/"+ MediaType.MP3.toString().toLowerCase()+"/");
+                    executeMethod(audioBuilder.sendAudio(pathDownloads,chatId, message));
                     System.out.println(userSent.messageSent(MediaType.MP3, username, chatId));
                     System.out.println(fileCleaner.delete(pathDownloads, MediaType.MP3));
                 }
@@ -118,7 +118,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
                 case "/format_d"->{
                     pathDownloads = Paths.get(PATH+chatId+"/"+ MediaType.FORMAT.toString().toLowerCase()+"/");
-                    executeMethod(documentSender.sendDocument(pathDownloads, chatId, message));
+                    executeMethod(documentBuilder.sendDocument(pathDownloads, chatId, message));
                     System.out.println(userSent.messageSent(MediaType.FORMAT, username, chatId));
                     System.out.println(fileCleaner.delete(pathDownloads, MediaType.FORMAT));
                 }

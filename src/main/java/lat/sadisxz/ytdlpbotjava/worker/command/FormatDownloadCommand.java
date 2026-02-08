@@ -22,7 +22,7 @@ public class FormatDownloadCommand implements YtDlpCommand{
         commands.add("-f");
         commands.add(content[1]);
         commands.add("-o");
-        commands.add(downloaderProperties.downloads_directory()+chatId+"/format/%(title)s.%(ext)s");
+        commands.add(downloaderProperties.base_path()+chatId+"/format/%(title)s.%(ext)s");
         commands.add(content[2]);
         return commands;
     }

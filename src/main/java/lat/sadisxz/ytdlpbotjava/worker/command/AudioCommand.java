@@ -25,7 +25,7 @@ public class AudioCommand implements YtDlpCommand{
         commandList.add("--audio-quality");
         commandList.add("best");
         commandList.add("-o");
-        commandList.add(downloaderProperties.downloads_directory()+chatId+"/mp3/%(title)s.%(ext)s");
+        commandList.add(downloaderProperties.base_path()+chatId+"/mp3/%(title)s.%(ext)s");
         commandList.add(content[1]);
         return commandList;
     }
