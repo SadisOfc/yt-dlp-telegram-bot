@@ -7,6 +7,7 @@ telegram:
     username: ${BOT_USERNAME}
     token: ${BOT_TOKEN}
     owner_token: ${OWNER_TOKEN}
+    owner_username: ${OWNER_USERNAME}
 
 downloader:
-  base-path: ${DOWNLOADS_DIRECTORY}
+  base_path: ${DOWNLOADS_DIRECTORY}

@@ -23,7 +23,7 @@ public class VideoCommand implements YtDlpCommand{
         commandList.add("--merge-output-format");
         commandList.add("mp4");
         commandList.add("-o");
-        commandList.add(downloaderProperties.downloads_directory()+chatId+"/mp4/%(title)s.%(ext)s");
+        commandList.add(downloaderProperties.base_path()+chatId+"/mp4/%(title)s.%(ext)s");
         commandList.add(content[1]);
         return commandList;
     }
