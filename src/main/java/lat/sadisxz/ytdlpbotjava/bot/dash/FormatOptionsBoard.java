@@ -17,14 +17,14 @@ public class FormatOptionsBoard {
     public String formatOptionsBoard(Long chatId, String[] message){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("""
-                ɪᴅ - ᴇxᴛ - ʀᴇꜱᴏʟᴜᴛɪᴏɴ - ꜰᴘꜱ
+                ***ɪᴅ - ᴇxᴛ - ʀᴇꜱᴏʟᴜᴛɪᴏɴ - ꜰᴘꜱ***
                 """);
         formatCollector.formatOptiones(formatOptionsCommand.processorExecutor(chatId,message)).stream().forEach(a->{
 
-            stringBuilder.append("`"+a.id()+ "`# - ");
+            stringBuilder.append("`"+a.id()+ "`___ - ");
             stringBuilder.append(a.ext()+ " - ");
             stringBuilder.append(a.resolution()+ " - ");
-            stringBuilder.append(a.fps() + "\n");
+            stringBuilder.append(a.fps() + "___\n");
         });
         return stringBuilder.toString();
     }

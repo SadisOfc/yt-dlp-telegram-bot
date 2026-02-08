@@ -8,10 +8,10 @@ import java.nio.file.Path;
 
 
 @Component
-public class VideoSender {
+public class VideoBuilder {
     private final VideoExecutor videoExecutor;
 
-    public VideoSender(VideoExecutor videoExecutor) {
+    public VideoBuilder(VideoExecutor videoExecutor) {
         this.videoExecutor = videoExecutor;
     }
 

@@ -20,11 +20,11 @@ public class StartBoard {
 
     public String startBotEnglish(UserDTO user){
         return String.format("""
-                彡 ꜰᴀꜱᴛᴅʟʙᴏᴛ  - @%s 彡
+                ***彡 ꜰᴀꜱᴛᴅʟʙᴏᴛ  - @%s 彡***
                 ———————————————————————————
-                ᴜꜱᴇʀ: @%s
-                ɪᴅ: `%s`
-                ꜱᴛᴀᴛᴜꜱ: `%s`""",telegramBotProperties.username(),user.username(),user.id(),user.status());
+                ***ᴜꜱᴇʀ:*** @%s
+                ***ɪᴅ:*** `%s`
+                ***ꜱᴛᴀᴛᴜꜱ:*** `%s`""",telegramBotProperties.username(),user.username(),user.id(),user.status());
     }
 
     public InlineKeyboardMarkup startEnglishMarkup(){
