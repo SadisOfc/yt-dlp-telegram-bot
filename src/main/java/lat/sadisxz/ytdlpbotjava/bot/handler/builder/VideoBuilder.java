@@ -1,6 +1,6 @@
-package lat.sadisxz.ytdlpbotjava.bot.handler.sender;
+package lat.sadisxz.ytdlpbotjava.bot.handler.builder;
 
-import lat.sadisxz.ytdlpbotjava.bot.handler.commands.VideoExecutor;
+import lat.sadisxz.ytdlpbotjava.bot.handler.command.VideoExecutor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
 
