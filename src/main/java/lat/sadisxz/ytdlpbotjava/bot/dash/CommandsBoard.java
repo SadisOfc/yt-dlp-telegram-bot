@@ -1,12 +1,11 @@
 package lat.sadisxz.ytdlpbotjava.bot.dash;
 
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 @Component
 public class CommandsBoard {
-    public SendMessage sendCommands(Long chatId){
-        String txt = String.format("""
+    public String sendCommands(){
+        return String.format("""
                 ***/ᴠɪᴅ [ᴜʀʟ]***
                 Downloads and sends the video in the highest available quality.
                 
@@ -32,15 +31,17 @@ public class CommandsBoard {
                 ***/ꜱᴛᴀʀᴛ***
                 Displays basic information about the current user.
                 
-                ***/ᴀᴅᴅ_ᴜꜱᴇʀ [ᴜꜱᴇʀ_ɪᴅ]***
+                ***/ᴜꜱᴇʀ_ʟɪꜱᴛ*** (Only admin)
+                List all existing bot users, along with their respective roles and IDs.
+                
+                ***/ᴡʜɪᴛᴇʟɪꜱᴛ_ꜱᴡɪᴛᴄʜ*** (Only admin)
+                Enables or disables the whitelist. When enabled, users with the guest role will not be able to use the bot.
+                
+                ***/ᴀᴅᴅ_ᴜꜱᴇʀ [ᴜꜱᴇʀ_ɪᴅ]*** (Only admin)
                 Adds a user to the whitelist. Administrator only. Only whitelisted users can use restricted commands.
                 
-                ***/ʀᴇᴍᴏᴠᴇ_ᴜꜱᴇʀ [ᴜꜱᴇʀ_ɪᴅ]***
+                ***/ʀᴇᴍᴏᴠᴇ_ᴜꜱᴇʀ [ᴜꜱᴇʀ_ɪᴅ]*** (Only admin)
                 Removes a user from the whitelist, revoking access to restricted commands. Administrator only.
                 """);
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
-        sendMessage.setText(txt);
-        return sendMessage;
     }
 }

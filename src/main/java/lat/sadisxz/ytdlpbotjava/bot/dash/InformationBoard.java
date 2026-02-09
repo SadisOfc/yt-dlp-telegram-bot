@@ -19,9 +19,9 @@ public class InformationBoard {
 
     public String informationEnglish(){
         return String.format("""
-                ***彡 ꜰᴀꜱᴛᴅʟʙᴏᴛ - @%s 彡***
+                彡 ꜰᴀꜱᴛᴅʟʙᴏᴛ - @%s 彡 
                 ———————————————————————————
-                ***ꜱᴛᴀᴄᴋ ᴜꜱᴇᴅ:***
+                ꜱᴛᴀᴄᴋ ᴜꜱᴇᴅ:
                 - 𝐽𝑎𝑣𝑎 𝟸𝟷 (<a href="https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html">link</a>)
                 - 𝑆𝑝𝑟𝑖𝑛𝑔 𝐵𝑜𝑜𝑡 (<a href="https://spring.io/projects/spring-boot">link</a>)
                 - 𝑇𝑒𝑙𝑒𝑔𝑟𝑎𝑚𝐵𝑜𝑡𝑠 𝐴𝑃𝐼 (<a href="https://github.com/rubenlagus/TelegramBots?tab=readme-ov-file">link</a>)
