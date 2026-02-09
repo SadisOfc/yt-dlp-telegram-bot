@@ -1,4 +1,4 @@
-package lat.sadisxz.ytdlpbotjava.bot.handler.cleaner;
+package lat.sadisxz.ytdlpbotjava.bot.handler.file;
 
 import org.springframework.stereotype.Component;
 
