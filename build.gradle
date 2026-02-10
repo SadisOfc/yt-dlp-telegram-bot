@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'lat.sadisxz'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 description = 'yt-dlp-bot-Java'
 
 java {
@@ -29,7 +29,7 @@ dependencies {
 }
 
 bootJar{
-    archiveFileName = 'telegram-bot.jar'
+    archiveFileName = 'telegram-bot-1.0.0.jar'
 }
 
 tasks.register("stage") {
