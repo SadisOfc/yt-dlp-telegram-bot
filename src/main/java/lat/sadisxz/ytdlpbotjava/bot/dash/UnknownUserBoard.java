@@ -1,15 +1,18 @@
 package lat.sadisxz.ytdlpbotjava.bot.dash;
 
+import lat.sadisxz.ytdlpbotjava.config.TelegramBotProperties;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 @Component
 public class UnknownUserBoard {
-    public SendMessage unknownUser(Long id){
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(id);
-        sendMessage.setText("You're not on the whitelist. Contact an administrator\n" +
-                "@Sadisxz");
-        return sendMessage;
+    private String owner_username;
+
+    public UnknownUserBoard(TelegramBotProperties telegramBotProperties) {
+        this.owner_username = telegramBotProperties.owner_username();
+    }
+
+    public String unknownUser(){
+        return String.format("You're not on the whitelist. Contact an administrator\n" +
+                "@%s", owner_username);
     }
 }

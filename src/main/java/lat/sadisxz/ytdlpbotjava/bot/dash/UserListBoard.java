@@ -1,31 +1,28 @@
 package lat.sadisxz.ytdlpbotjava.bot.dash;
 
-import lat.sadisxz.ytdlpbotjava.bot.model.UserStatus;
+import lat.sadisxz.ytdlpbotjava.bot.dto.UserResponse;
 import lat.sadisxz.ytdlpbotjava.config.TelegramBotProperties;
-import lat.sadisxz.ytdlpbotjava.repository.UserRegistry;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
+import java.util.List;
 
 @Component
 public class UserListBoard {
-    private final UserRegistry userRegistry;
     private final TelegramBotProperties telegramBotProperties;
 
-    public UserListBoard(UserRegistry userRegistry, TelegramBotProperties telegramBotProperties) {
-        this.userRegistry = userRegistry;
+    public UserListBoard(TelegramBotProperties telegramBotProperties) {
         this.telegramBotProperties = telegramBotProperties;
     }
 
-    public String userList(){
+    public String userList(List<UserResponse> userList){
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("""
-                彡 ꜰᴀꜱᴛᴅʟʙᴏᴛ  - @%s 彡
+                ***彡 ꜰᴀꜱᴛᴅʟʙᴏᴛ  - @%s 彡***
                 ———————————————————————————
-                ᴜꜱᴇʀ ʟɪꜱᴛ
+                ***ᴜꜱᴇʀ ʟɪꜱᴛ***
                 """,telegramBotProperties.username()));
-        for(Map.Entry<Long, UserStatus> entry : userRegistry.getAllUsers().entrySet()){
-            sb.append(String.format("ɪᴅ: `%s` - ꜱᴛᴀᴛᴜꜱ: `%s`\n", entry.getKey(), entry.getValue()));
+        for(UserResponse u : userList){
+            sb.append(String.format("ɪᴅ: `%s` - ᴜꜱᴇʀɴᴀᴍᴇ: %s - ꜱᴛᴀᴛᴜꜱ: `%s`\n", u.id(), u.username(), u.role()));
         }
         return sb.toString();
     }

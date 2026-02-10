@@ -19,7 +19,7 @@ public class InformationBoard {
 
     public String informationEnglish(){
         return String.format("""
-                彡 ꜰᴀꜱᴛᴅʟʙᴏᴛ - @%s 彡
+                彡 ꜰᴀꜱᴛᴅʟʙᴏᴛ - @%s 彡 
                 ———————————————————————————
                 ꜱᴛᴀᴄᴋ ᴜꜱᴇᴅ:
                 - 𝐽𝑎𝑣𝑎 𝟸𝟷 (<a href="https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html">link</a>)
@@ -35,7 +35,7 @@ public class InformationBoard {
         button1.setText("""
         ɢɪᴛʜᴜʙ ʀᴇᴘᴏꜱɪᴛᴏʀʏ""");
         button1.setCallbackData("github");
-        button1.setUrl("https://github.com/FernandezMartinezBorojo/telegrambot-ytdlp");
+        button1.setUrl("https://github.com/SadisOfc/yt-dlp-telegram-bot");
 
         List<InlineKeyboardButton> l1 = new ArrayList<>(List.of(button1));
         List<List<InlineKeyboardButton>> keyboardMarkup = new ArrayList<>(List.of(l1));
