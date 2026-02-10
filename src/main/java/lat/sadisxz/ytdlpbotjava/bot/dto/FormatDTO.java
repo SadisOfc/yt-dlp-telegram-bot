@@ -1,4 +1,4 @@
-package lat.sadisxz.ytdlpbotjava.bot.model;
+package lat.sadisxz.ytdlpbotjava.bot.dto;
 
 public record FormatDTO(String id, String ext, String resolution, String fps) {
     @Override
