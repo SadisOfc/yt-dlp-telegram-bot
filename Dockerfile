@@ -19,7 +19,7 @@ RUN apt update && apt install -y wget ffmpeg python3 \
     && chmod +x /usr/local/bin/yt-dlp
 
 WORKDIR /app
-COPY --from=build /build/build/libs/*.jar app.jar
+COPY --from=build /build/build/libs/telegram-bot.jar app.jar
 
 ENV DOWNLOADS_DIRECTORY=/downloads/
 VOLUME ["/downloads"]
