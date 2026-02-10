@@ -1,6 +1,6 @@
 package lat.sadisxz.ytdlpbotjava.worker;
 
-import lat.sadisxz.ytdlpbotjava.bot.model.FormatDTO;
+import lat.sadisxz.ytdlpbotjava.bot.dto.FormatDTO;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
