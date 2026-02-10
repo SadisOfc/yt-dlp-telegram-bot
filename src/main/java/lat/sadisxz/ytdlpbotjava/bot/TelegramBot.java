@@ -1,21 +1,14 @@
 package lat.sadisxz.ytdlpbotjava.bot;
 
-
-import lat.sadisxz.ytdlpbotjava.bot.dash.CommandsBoard;
-import lat.sadisxz.ytdlpbotjava.bot.dash.ErrorBoard;
-import lat.sadisxz.ytdlpbotjava.bot.dash.UnknownUserBoard;
-import lat.sadisxz.ytdlpbotjava.bot.handler.cleaner.FileCleaner;
-import lat.sadisxz.ytdlpbotjava.bot.handler.command.*;
-import lat.sadisxz.ytdlpbotjava.bot.handler.builder.AudioBuilder;
-import lat.sadisxz.ytdlpbotjava.bot.handler.builder.DocumentBuilder;
-import lat.sadisxz.ytdlpbotjava.bot.handler.builder.VideoBuilder;
-import lat.sadisxz.ytdlpbotjava.bot.model.MediaType;
-import lat.sadisxz.ytdlpbotjava.bot.model.UserDTO;
-import lat.sadisxz.ytdlpbotjava.bot.model.UserStatus;
+import lat.sadisxz.ytdlpbotjava.bot.dto.UserRequest;
+import lat.sadisxz.ytdlpbotjava.bot.handler.MessageSender;
+import lat.sadisxz.ytdlpbotjava.bot.handler.file.FileCleaner;
+import lat.sadisxz.ytdlpbotjava.bot.model.enums.MediaType;
+import lat.sadisxz.ytdlpbotjava.bot.dto.UserDTO;
+import lat.sadisxz.ytdlpbotjava.bot.model.enums.UserRole;
+import lat.sadisxz.ytdlpbotjava.bot.service.UserService;
 import lat.sadisxz.ytdlpbotjava.config.DownloaderProperties;
 import lat.sadisxz.ytdlpbotjava.config.TelegramBotProperties;
-import lat.sadisxz.ytdlpbotjava.repository.UserRegistry;
-import lat.sadisxz.ytdlpbotjava.utils.UserSent;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -33,46 +26,21 @@ import java.nio.file.Paths;
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
 
+    private final MessageSender messageSender;
     private final FileCleaner fileCleaner;
-    private final VideoBuilder videoSender;
-    private final AudioBuilder audioBuilder;
-    private final UserSent userSent;
-    private final FormatOptionsExecutor formatOptionsExecutor;
-    private final StartExecutor startExecutor;
-    private final InformationExecutor informationExecutor;
-    private final UserListExecutor listExecutor;
-    private final UserRegistry userRegistry;
-    private final UnknownUserBoard unknownUserBoard;
-    private final AddUserExecutor addUserExecutor;
-    private final ErrorBoard errorBoard;
-    private final RemoveUserExecutor removeUserExecutor;
-    private final DocumentBuilder documentBuilder;
-    private final CommandsBoard commandsBoard;
-
+    private final UserService userService;
 
     private final String BOTUSERNAME;
     private final String BOTTOKEN;
     private final String PATH;
 
-    public TelegramBot(FileCleaner fileCleaner, VideoBuilder videoSender, AudioBuilder audioBuilder, UserSent userSent, FormatOptionsExecutor formatOptionsExecutor, StartExecutor startExecutor, InformationExecutor informationExecutor, UserListExecutor listExecutor, UserRegistry userRegistry, UnknownUserBoard unknownUserBoard, AddUserExecutor addUserExecutor, ErrorBoard errorBoard, RemoveUserExecutor removeUserExecutor, DocumentBuilder documentBuilder, CommandsBoard commandsBoard, TelegramBotProperties telegramBotProperties, DownloaderProperties downloaderProperties) {
-        this.fileCleaner = fileCleaner;
-        this.videoSender = videoSender;
-        this.audioBuilder = audioBuilder;
-        this.userSent = userSent;
-        this.formatOptionsExecutor = formatOptionsExecutor;
-        this.startExecutor = startExecutor;
-        this.informationExecutor = informationExecutor;
-        this.listExecutor = listExecutor;
-        this.userRegistry = userRegistry;
-        this.unknownUserBoard = unknownUserBoard;
-        this.addUserExecutor = addUserExecutor;
-        this.errorBoard = errorBoard;
-        this.removeUserExecutor = removeUserExecutor;
-        this.documentBuilder = documentBuilder;
-        this.commandsBoard = commandsBoard;
+    public TelegramBot(TelegramBotProperties telegramBotProperties, MessageSender messageSender, DownloaderProperties downloaderProperties, FileCleaner fileCleaner, UserService userService) {
         this.BOTUSERNAME = telegramBotProperties.username();
         this.BOTTOKEN = telegramBotProperties.token();
+        this.messageSender = messageSender;
         this.PATH = downloaderProperties.base_path();
+        this.fileCleaner = fileCleaner;
+        this.userService = userService;
     }
 
     @Override
@@ -81,71 +49,34 @@ public class TelegramBot extends TelegramLongPollingBot {
             Long chatId = update.getMessage().getChatId();
             String name = update.getMessage().getChat().getFirstName();
             String username = update.getMessage().getChat().getUserName();
-
-            System.out.println("User: " + username + " - Id: " + chatId);
-            if(userRegistry.findUserById(chatId) == null){
-                executeMethod(unknownUserBoard.unknownUser(chatId));
-                return;
-            }
             String[] message = update.getMessage().getText().split(" ");
-            UserDTO user= new UserDTO(name, username, chatId, userRegistry.findUserById(chatId), message);
-            Path pathDownloads;
+            UserRole userRole = userService.getOrCreateUser(new UserRequest(chatId, name, username)).getRole();
 
-            switch (message[0].toLowerCase()){
-                case "/start"->{
-                    executeMethod(startExecutor.sendStart(user));
-                }
-                case "/info"->{
-                    executeMethod(informationExecutor.sendStart(user));
-                }
-                case "/vid"->{
-                    pathDownloads = Paths.get(PATH+chatId+"/"+ MediaType.MP4.toString().toLowerCase()+"/");
-                    executeMethod(videoSender.sendVideo(pathDownloads,chatId, message));
-                    System.out.println(userSent.messageSent(MediaType.MP4, username, chatId));
-                    System.out.println(fileCleaner.delete(pathDownloads, MediaType.MP4));
-                }
+            UserDTO user= new UserDTO(name, username, chatId, userRole, message);
+            System.out.println("User: " + username + " - Id: " + chatId);
+            userService.validateUserAccess(user);
 
-                case "/aud"->{
-                    pathDownloads = Paths.get(PATH+chatId.toString()+"/"+ MediaType.MP3.toString().toLowerCase()+"/");
-                    executeMethod(audioBuilder.sendAudio(pathDownloads,chatId, message));
-                    System.out.println(userSent.messageSent(MediaType.MP3, username, chatId));
-                    System.out.println(fileCleaner.delete(pathDownloads, MediaType.MP3));
-                }
-
-                case "/format"->{
-                    executeMethod(formatOptionsExecutor.sendFormatsToUser(chatId,message));
-                }
-
-                case "/format_d"->{
-                    pathDownloads = Paths.get(PATH+chatId+"/"+ MediaType.FORMAT.toString().toLowerCase()+"/");
-                    executeMethod(documentBuilder.sendDocument(pathDownloads, chatId, message));
-                    System.out.println(userSent.messageSent(MediaType.FORMAT, username, chatId));
-                    System.out.println(fileCleaner.delete(pathDownloads, MediaType.FORMAT));
-                }
-                case "/list"->{
-                    executeMethod(listExecutor.sendUserList(user));
-                }
-                case "/add_user"->{
-                    if(userRegistry.findUserById(chatId) == UserStatus.USER){
-                        executeMethod(errorBoard.invalidPermission(chatId));
-                        break;
-                    };
-                    executeMethod(addUserExecutor.addUser(chatId, Long.parseLong(message[1]), UserStatus.USER));
-                }
-                case "/remove_user"->{
-                    if(userRegistry.findUserById(chatId) != UserStatus.OWNER){
-                        executeMethod(errorBoard.invalidPermission(chatId));
-                        break;
-                    };
-                    executeMethod(removeUserExecutor.removeUser(chatId, Long.parseLong(message[1])));
-                }
-                case "/commands"->{
-                    executeMethod(commandsBoard.sendCommands(chatId));
-                }
-                default -> {
-                }
+            executeMethod(messageSender.coordinateResponse(user));
+            System.out.println("Se envió el mensaje");
+            Path pathDownload = identificatorMediaType(user);
+            if(pathDownload!=null){
+                System.out.println(fileCleaner.delete(pathDownload));
             }
+        }
+    }
 
+    public Path identificatorMediaType(UserDTO user){
+        switch (user.message()[0]){
+            case "/vid"->{
+                return Paths.get(PATH+user.id().toString()+"/"+ MediaType.MP4.toString().toLowerCase()+"/");
+            }
+            case "/aud"->{
+                return Paths.get(PATH+user.id().toString()+"/"+ MediaType.MP3.toString().toLowerCase()+"/");
+            }
+            case "/format_d"->{
+                return Paths.get(PATH+user.id().toString()+"/"+ MediaType.FORMAT.toString().toLowerCase()+"/");
+            }
+            default ->{return null;}
         }
     }
 
