@@ -15,6 +15,7 @@ build/
 .springBeans
 .sts4-cache
 bin/
+downloads/
 !**/src/dockerExecutor/**/bin/
 !**/src/test/**/bin/
 tmp/

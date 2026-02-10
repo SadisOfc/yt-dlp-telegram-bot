@@ -2,6 +2,17 @@ spring:
   application:
     name: yt-dlp-bot-Java
 
+  datasource:
+    username: postgres
+    password: fenrirpro123
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/telegram-bot
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+
 telegram:
   bot:
     username: ${BOT_USERNAME}
