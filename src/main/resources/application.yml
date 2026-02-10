@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: yt-dlp-bot-Java
+
+  datasource:
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    url: ${DB_URL}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+
+telegram:
+  bot:
+    username: ${BOT_USERNAME}
+    token: ${BOT_TOKEN}
+    owner_token: ${OWNER_TOKEN}
+    owner_username: ${OWNER_USERNAME}
+
+downloader:
+  base_path: ${DOWNLOADS_DIRECTORY}
