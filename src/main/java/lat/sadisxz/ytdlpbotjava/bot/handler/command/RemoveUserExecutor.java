@@ -1,24 +1,26 @@
-package lat.sadisxz.ytdlpbotjava.bot.handler.commands;
+package lat.sadisxz.ytdlpbotjava.bot.handler.command;
 
-import lat.sadisxz.ytdlpbotjava.bot.dash.AdminBoard;
-import lat.sadisxz.ytdlpbotjava.repository.UserRegistry;
+import lat.sadisxz.ytdlpbotjava.bot.dash.RemoveUserBoard;
+import lat.sadisxz.ytdlpbotjava.bot.dto.UserDTO;
+import lat.sadisxz.ytdlpbotjava.bot.service.UserService;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 @Component
 public class RemoveUserExecutor {
-    private final UserRegistry userRegistry;
+    private final UserService userService;
+    private final RemoveUserBoard removeUserBoard;
 
-    public RemoveUserExecutor(UserRegistry userRegistry) {
-        this.userRegistry = userRegistry;
+    public RemoveUserExecutor(UserService userService, RemoveUserBoard removeUserBoard) {
+        this.userService = userService;
+        this.removeUserBoard = removeUserBoard;
     }
 
-    public SendMessage removeUser(Long chatId, Long removeUserId){
+    public SendMessage removeUser(UserDTO user){
+        userService.removeUserToWhitelist(user);
         SendMessage sendMessage = new SendMessage();
-        userRegistry.removeUser(removeUserId);
-        sendMessage.setText("""
-                𝙳𝚎𝚕𝚎𝚝𝚎𝚍 𝚞𝚜𝚎𝚛""");
-        sendMessage.setChatId(chatId);
+        sendMessage.setText(removeUserBoard.removeUser(Long.parseLong(user.message()[1])));
+        sendMessage.setChatId(user.id());
         sendMessage.enableMarkdown(true);
         return sendMessage;
     }

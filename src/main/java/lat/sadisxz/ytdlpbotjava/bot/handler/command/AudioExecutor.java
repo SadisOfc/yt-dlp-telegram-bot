@@ -1,6 +1,6 @@
-package lat.sadisxz.ytdlpbotjava.bot.handler.commands;
+package lat.sadisxz.ytdlpbotjava.bot.handler.command;
 
-import lat.sadisxz.ytdlpbotjava.bot.handler.FileLocator;
+import lat.sadisxz.ytdlpbotjava.bot.handler.file.FileLocator;
 import lat.sadisxz.ytdlpbotjava.worker.DownloaderService;
 import lat.sadisxz.ytdlpbotjava.worker.command.AudioCommand;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package lat.sadisxz.ytdlpbotjava.bot.handler.commands;
+package lat.sadisxz.ytdlpbotjava.bot.handler.command;
 
 import lat.sadisxz.ytdlpbotjava.bot.dash.FormatOptionsBoard;
 import org.springframework.stereotype.Component;
