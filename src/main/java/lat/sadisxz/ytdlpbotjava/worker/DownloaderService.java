@@ -1,5 +1,7 @@
 package lat.sadisxz.ytdlpbotjava.worker;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -9,8 +11,10 @@ import java.util.List;
 
 @Component
 public class DownloaderService {
+    Logger log = LoggerFactory.getLogger(DownloaderService.class);
 
-    public Integer download(List<String> commands){
+    public void download(List<String> commands){
+        log.info("Download started");
         ProcessBuilder pb = new ProcessBuilder(commands);
         pb.redirectErrorStream(true);
         try{
@@ -20,11 +24,8 @@ public class DownloaderService {
             while((line=bf.readLine())!=null){
                 System.out.println(line);
             }
-            int codeProcess = process.waitFor();
-            return codeProcess;
-        }catch(IOException | InterruptedException e){
-            e.printStackTrace();
+        }catch(IOException e){
+            log.info("Download failed. Error: {}", e.getMessage());
         }
-        return null;
     }
 }

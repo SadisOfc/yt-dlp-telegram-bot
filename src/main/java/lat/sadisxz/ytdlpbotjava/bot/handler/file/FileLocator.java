@@ -1,5 +1,8 @@
 package lat.sadisxz.ytdlpbotjava.bot.handler.file;
 
+import lat.sadisxz.ytdlpbotjava.bot.exception.InexistentFileException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -9,16 +12,17 @@ import java.nio.file.Path;
 import java.util.stream.Stream;
 
 @Component
-public class FileLocator {
-    public File findFile(Path path, Long chatId) {
+public class FileLocator{
+    Logger log = LoggerFactory.getLogger(FileLocator.class);
+    public File findFile(Path path){
         try(Stream<Path> files = Files.list(path)){
             Path video = files
                     .filter(Files::isRegularFile)
                     .findFirst()
-                    .orElseThrow(()-> new RuntimeException("No se descargó nada"));
+                    .orElseThrow(()-> new InexistentFileException("The file was not found"));
             return video.toFile();
         }catch(IOException e){
-            e.printStackTrace();
+            log.error("Unexpected error searching for file", e);
         }
         return null;
     }

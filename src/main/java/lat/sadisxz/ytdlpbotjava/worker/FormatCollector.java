@@ -1,6 +1,8 @@
 package lat.sadisxz.ytdlpbotjava.worker;
 
 import lat.sadisxz.ytdlpbotjava.bot.dto.FormatDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -11,7 +13,9 @@ import java.util.List;
 
 @Component
 public class FormatCollector {
-    public List<FormatDTO> formatOptiones(List<String> commands){
+    private final Logger log = LoggerFactory.getLogger(FormatCollector.class);
+
+    public List<FormatDTO> formatOptions(List<String> commands){
         ProcessBuilder pb = new ProcessBuilder(commands);
         List<String> availableOptions = new ArrayList<>();
         pb.redirectErrorStream(true);
@@ -33,7 +37,7 @@ public class FormatCollector {
             }
             process.waitFor();
         }catch(IOException | InterruptedException e){
-            e.printStackTrace();
+            log.error("The option couldn't be processed with the available formats", e);
         }
         availableOptions.removeFirst();
         return availableOptions.stream().map(line->{
