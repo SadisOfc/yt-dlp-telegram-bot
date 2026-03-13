@@ -17,7 +17,7 @@ public class StartBoard {
                 ***彡 ꜰᴀꜱᴛᴅʟʙᴏᴛ  - @%s 彡***
                 ———————————————————————————
                 ***ɪᴅ:*** `%s`
-                ***ᴜꜱᴇʀ:*** @%s
+                ***ᴜꜱᴇʀ:*** %s
                 ***ꜱᴛᴀᴛᴜꜱ:*** `%s`""",telegramBotProperties.username(),user.getId(),user.getUsername(),user.getRole());
     }
 }
