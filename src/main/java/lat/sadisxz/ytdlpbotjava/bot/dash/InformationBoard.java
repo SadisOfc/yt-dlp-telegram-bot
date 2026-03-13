@@ -19,11 +19,13 @@ public class InformationBoard {
 
     public String informationEnglish(){
         return String.format("""
-                彡 ꜰᴀꜱᴛᴅʟʙᴏᴛ - @%s 彡 
+                彡 ꜰᴀꜱᴛᴅʟʙᴏᴛ - @%s 彡\s
                 ———————————————————————————
                 ꜱᴛᴀᴄᴋ ᴜꜱᴇᴅ:
                 - 𝐽𝑎𝑣𝑎 𝟸𝟷 (<a href="https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html">link</a>)
                 - 𝑆𝑝𝑟𝑖𝑛𝑔 𝐵𝑜𝑜𝑡 (<a href="https://spring.io/projects/spring-boot">link</a>)
+                - 𝑆𝑝𝑟𝑖𝑛𝑔 𝐷𝑎𝑡𝑎 (<a href="https://spring.io/projects/spring-data">link</a>)
+                - 𝑃𝑜𝑠𝑡𝑔𝑟𝑒𝑆𝑄𝐿 (<a href="https://www.postgresql.org/download/">link</a>)
                 - 𝑇𝑒𝑙𝑒𝑔𝑟𝑎𝑚𝐵𝑜𝑡𝑠 𝐴𝑃𝐼 (<a href="https://github.com/rubenlagus/TelegramBots?tab=readme-ov-file">link</a>)
                 - 𝑦𝑡-𝑑𝑙𝑝 (<a href="https://github.com/yt-dlp/yt-dlp">link</a>)
                 - 𝐹𝐹𝑚𝑝𝑒𝑔 (<a href="https://www.ffmpeg.org/">link</a>)

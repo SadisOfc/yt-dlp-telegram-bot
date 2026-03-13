@@ -22,6 +22,6 @@ public class VideoExecutor {
 
     public InputFile sendVideoToUser(Path pathDownloads,Long chatId, String[] message){
         downloaderService.download(videoCommand.processorExecutor(chatId, message));
-        return new InputFile(fileLocator.findFile(pathDownloads,chatId));
+        return new InputFile(fileLocator.findFile(pathDownloads));
     }
 }

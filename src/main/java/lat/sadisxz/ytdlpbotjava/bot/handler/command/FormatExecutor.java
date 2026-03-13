@@ -22,6 +22,6 @@ public class FormatExecutor {
 
     public InputFile sendFormatToUser(Path pathDownloads, Long chatId, String[] message){
         downloaderService.download(formatDownloadCommand.processorExecutor(chatId, message));
-        return new InputFile(fileLocator.findFile(pathDownloads,chatId));
+        return new InputFile(fileLocator.findFile(pathDownloads));
     }
 }

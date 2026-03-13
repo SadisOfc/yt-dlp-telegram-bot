@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class FormatOptionsBoard {
     private final FormatOptionsCommand formatOptionsCommand;
-    private FormatCollector formatCollector;
+    private final FormatCollector formatCollector;
 
     public FormatOptionsBoard(FormatOptionsCommand formatOptionsCommand, FormatCollector formatCollector) {
         this.formatOptionsCommand = formatOptionsCommand;
@@ -19,12 +19,11 @@ public class FormatOptionsBoard {
         stringBuilder.append("""
                 ***ɪᴅ - ᴇxᴛ - ʀᴇꜱᴏʟᴜᴛɪᴏɴ - ꜰᴘꜱ***
                 """);
-        formatCollector.formatOptiones(formatOptionsCommand.processorExecutor(chatId,message)).stream().forEach(a->{
-
-            stringBuilder.append("`"+a.id()+ "`___ - ");
-            stringBuilder.append(a.ext()+ " - ");
-            stringBuilder.append(a.resolution()+ " - ");
-            stringBuilder.append(a.fps() + "___\n");
+        formatCollector.formatOptions(formatOptionsCommand.processorExecutor(chatId,message)).forEach(a->{
+            stringBuilder.append("`").append(a.id()).append("`___ - ");
+            stringBuilder.append(a.ext()).append(" - ");
+            stringBuilder.append(a.resolution()).append(" - ");
+            stringBuilder.append(a.fps()).append("___\n");
         });
         return stringBuilder.toString();
     }

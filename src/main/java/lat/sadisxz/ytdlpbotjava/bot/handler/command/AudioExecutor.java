@@ -22,6 +22,6 @@ public class AudioExecutor {
 
     public InputFile sendAudioToUser(Path path, Long chatId, String[] message){
         downloaderService.download(audioCommand.processorExecutor(chatId, message));
-        return new InputFile(fileLocator.findFile(path, chatId));
+        return new InputFile(fileLocator.findFile(path));
     }
 }

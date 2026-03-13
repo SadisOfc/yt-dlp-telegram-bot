@@ -8,6 +8,7 @@ import lat.sadisxz.ytdlpbotjava.bot.model.enums.MediaType;
 import lat.sadisxz.ytdlpbotjava.bot.dto.UserDTO;
 import lat.sadisxz.ytdlpbotjava.config.DownloaderProperties;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,10 +27,10 @@ public class MessageSender {
     private final CommandListExecutor commandListExecutor;
     private final InvalidCommandExecutor invalidCommandExecutor;
     private final WhitelistExecutor whitelistExecutor;
-
+    private final ErrorBotExecutor errorBotExecutor;
     private final String PATH;
 
-    public MessageSender(VideoBuilder videoSender, AudioBuilder audioBuilder, FormatOptionsExecutor formatOptionsExecutor, StartExecutor startExecutor, InformationExecutor informationExecutor, UserListExecutor listExecutor, AddUserExecutor addUserExecutor, RemoveUserExecutor removeUserExecutor, DocumentBuilder documentBuilder, DownloaderProperties downloaderProperties, CommandListExecutor commandListExecutor, InvalidCommandExecutor invalidCommandExecutor, WhitelistExecutor whitelistExecutor) {
+    public MessageSender(VideoBuilder videoSender, AudioBuilder audioBuilder, FormatOptionsExecutor formatOptionsExecutor, StartExecutor startExecutor, InformationExecutor informationExecutor, UserListExecutor listExecutor, AddUserExecutor addUserExecutor, RemoveUserExecutor removeUserExecutor, DocumentBuilder documentBuilder, DownloaderProperties downloaderProperties, CommandListExecutor commandListExecutor, InvalidCommandExecutor invalidCommandExecutor, WhitelistExecutor whitelistExecutor, ErrorBotExecutor errorBotExecutor) {
         this.videoSender = videoSender;
         this.audioBuilder = audioBuilder;
         this.formatOptionsExecutor = formatOptionsExecutor;
@@ -43,6 +44,7 @@ public class MessageSender {
         this.commandListExecutor = commandListExecutor;
         this.invalidCommandExecutor = invalidCommandExecutor;
         this.whitelistExecutor = whitelistExecutor;
+        this.errorBotExecutor = errorBotExecutor;
     }
 
     public Object coordinateResponse(UserDTO user){
@@ -52,10 +54,10 @@ public class MessageSender {
 
         switch (message[0].toLowerCase()){
             case "/start"->{
-                return startExecutor.sendStart(user);
+                return startExecutor.execute(user);
             }
             case "/info"->{
-                return informationExecutor.sendStart(user);
+                return informationExecutor.execute(user);
             }
             case "/vid"->{
                 pathDownloads = Paths.get(PATH+chatId.toString()+"/"+ MediaType.MP4.toString().toLowerCase()+"/");
@@ -68,7 +70,7 @@ public class MessageSender {
             }
 
             case "/format"->{
-                return formatOptionsExecutor.sendFormatsToUser(chatId,message);
+                return formatOptionsExecutor.execute(user);
             }
 
             case "/format_d"->{
@@ -76,23 +78,28 @@ public class MessageSender {
                 return documentBuilder.sendDocument(pathDownloads, chatId, message);
             }
             case "/user_list"->{
-                return listExecutor.sendUserList(user);
+                return listExecutor.execute(user);
             }
             case "/add_user"->{
-                return addUserExecutor.addUser(user);
+                return addUserExecutor.execute(user);
             }
             case "/remove_user"->{
-                return removeUserExecutor.removeUser(user);
+                return removeUserExecutor.execute(user);
             }
             case "/commands"->{
-                return commandListExecutor.execute(chatId);
+                return commandListExecutor.execute(user);
             }
             case "/whitelist_switch"->{
                 return whitelistExecutor.execute(user);
             }
             default -> {
-                return invalidCommandExecutor.execute(chatId);
+                return invalidCommandExecutor.execute(user);
             }
         }
     }
+
+    public SendMessage coordinateError(Long chatId,String message){
+        return errorBotExecutor.execute(chatId, message);
+    }
+
 }
