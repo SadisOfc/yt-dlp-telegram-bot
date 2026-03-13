@@ -15,7 +15,7 @@ public class OwnerBootstrap implements CommandLineRunner {
 
     public OwnerBootstrap(UserRepository userRepository, TelegramBotProperties telegramBotProperties) {
         this.userRepository = userRepository;
-        ownerId = Long.parseLong(telegramBotProperties.owner_token());
+        ownerId = Long.parseLong(telegramBotProperties.owner_id());
         ownerUsername = telegramBotProperties.owner_username();
     }
 

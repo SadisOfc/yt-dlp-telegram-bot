@@ -1,0 +1,37 @@
+services:
+  bot:
+    build: .
+    environment:
+      BOT_TOKEN: ${BOT_TOKEN}
+      BOT_USERNAME: ${BOT_USERNAME}
+      OWNER_ID: ${OWNER_ID}
+      OWNER_USERNAME: ${OWNER_USERNAME}
+      DOWNLOADS_DIRECTORY: /downloads/
+
+      DB_PASSWORD: ${DB_PASSWORD:-postgres12345}
+      DB_USER: ${DB_USER:-postgres}
+      DB_URL: ${DB_URL:-jdbc:postgresql://db:5432/telegram_bot}
+    depends_on:
+      - db
+    networks:
+      - user-network
+
+  db:
+    image: postgres:18
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres12345}
+      POSTGRES_DB: ${POSTGRES_DB:-telegram_bot}
+    volumes:
+      - PG_DATA:/var/lib/postgresql/18/docker
+    networks:
+      - user-network
+
+volumes:
+  PG_DATA:
+
+networks:
+  user-network:
+    driver: bridge
