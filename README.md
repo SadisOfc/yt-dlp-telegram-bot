@@ -12,40 +12,8 @@
 Telegram bot developed in Java with Spring Boot that allows downloading multimedia content from multiple platforms using yt-dlp.
 
 ![Screenshot](docs/readme.png)
-
 # RUNNING THE TELEGRAM BOT
-## Running in Local
-### Prerequisites
-- Java 21
-- yt-dlp
-- PostgreSQL **(local or Remote)**
-- FFmpeg
-- Telegram Bot token and allowed user ID
-
-The Telegram user ID can be obtained using the [@userinfobot](https://web.telegram.org/k/#@userinfobot) bot.
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/SadisOfc/yt-dlp-telegram-bot
-   cd yt-dlp-telegram-bot
-   ```
-   
-2. **Set your telegram tokens:**
-   ```bash
-   export BOT_TOKEN=your_bot_token
-   export BOT_USERNAME=your_bot_username
-   export OWNER_ID=your_user_id
-   export DOWNLOADS_DIRECTORY=downloads/
-   export DB_PASSWORD=your_database_password
-   export DB_USERNAME=your_database_username
-   export DB_URL=jdbc:postgresql://your_database_url
-   ```
-   
-3. **Run the Bot:**
-   ```bash
-   ./gradlew bootrun
-   ```
-
-## Running with Docker Compose
+## Running with Docker (Recommended)
 ### Prerequisites
 - Docker
 
@@ -95,6 +63,37 @@ DB_USER=your_database_user
 # Database name used by PostgreSQL container
 POSTGRES_DB=your_database_name
 ```
+
+## Running in Local (Development)
+### Prerequisites
+- Java 21
+- yt-dlp
+- PostgreSQL **(local or Remote)**
+- FFmpeg
+- Telegram Bot token and allowed user ID
+
+The Telegram user ID can be obtained using the [@userinfobot](https://web.telegram.org/k/#@userinfobot) bot.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/SadisOfc/yt-dlp-telegram-bot
+   cd yt-dlp-telegram-bot
+   ```
+   
+2. **Set your telegram tokens:**
+   ```bash
+   export BOT_TOKEN=your_bot_token
+   export BOT_USERNAME=your_bot_username
+   export OWNER_ID=your_user_id
+   export DOWNLOADS_DIRECTORY=downloads/
+   export DB_PASSWORD=your_database_password
+   export DB_USERNAME=your_database_username
+   export DB_URL=jdbc:postgresql://your_database_url
+   ```
+   
+3. **Run the Bot:**
+   ```bash
+   ./gradlew bootrun
+   ```
 
 # USAGE AND OPTIONS
 ## General Commands

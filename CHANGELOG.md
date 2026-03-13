@@ -9,3 +9,14 @@
 - User management commands (add, remove, list users).
 - Whitelist functionality for access control.
 - Configuration support via environment variables.
+
+### [1.1.0] – 2026-03-12
+#### Added
+- Logging support across core components.
+- Custom exception handling system.
+- Docker Compose configuration for easier deployment.
+#### Changed
+- Refactored TelegramBot structure for better organization.
+- Improved command execution architecture.
+#### Refactored
+- General codebase cleanup and internal improvements.
